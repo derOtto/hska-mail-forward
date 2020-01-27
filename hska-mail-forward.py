@@ -53,7 +53,10 @@ for folderid in folderids:
     if folderid in skip_folder:
         print("skip folder with id: {}".format(folderid))
         continue
-    mails = hskaconnector.get_mailoverview(folderid).json()
+    mailoverview = hskaconnector.get_mailoverview(folderid)
+    mails = []
+    if mailoverview.status_code == 200:
+        mails = mailoverview.json()
 
     for mail in mails:
         if mail['messageId'] in skip_message:
